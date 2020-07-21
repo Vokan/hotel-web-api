@@ -5,8 +5,10 @@ package dev.hotel.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +38,19 @@ public class ClientControllerTests {
 	@MockBean
 	private ClientRepository clientRepo;
 	
+	protected List<Client> list =new ArrayList<>();
+	
+	@BeforeEach
+	void setUp () {
+		
+		 Client client1 =new Client("Odd","Ross");
+		 client1.setUuid(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"));
+		 list.add(client1);
+	}
 	
 	@Test
 	void list() throws Exception {
 
-		 List<Client> list =new ArrayList<>();
-		 Client client1 =new Client("Odd","Ross");
-		 client1.setUuid(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"));
-		 list.add(client1);
-		 
 		 Page<Client> page = new PageImpl<>(list);
 		 
 		 Mockito.when(clientRepo.findAll(PageRequest.of(0,1))).thenReturn(page);
@@ -56,6 +62,17 @@ public class ClientControllerTests {
 		 andExpect(MockMvcResultMatchers.jsonPath("$[0].prenoms").value("Ross"));
 	}
 	
+	@Test
+	void findByUuid() throws Exception{
+		
 
+		 Mockito.when(clientRepo.findById(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"))).thenReturn(Optional.of(list.get(0)));
+		 
+		 mockMvc.perform(
+				 MockMvcRequestBuilders.get("/clients/dcf129f1-a2f9-47dc-8265-1d844244b192")).
+		// andExpect(MockMvcResultMatchers.status().isOk()).
+		 andExpect(MockMvcResultMatchers.jsonPath("$.nom").value("Odd")).
+		 andExpect(MockMvcResultMatchers.jsonPath("$.prenoms").value("Ross"));
+	}
 	
 }

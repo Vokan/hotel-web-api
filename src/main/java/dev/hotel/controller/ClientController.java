@@ -3,7 +3,8 @@
  */
 package dev.hotel.controller;
 
-import java.util.List;
+
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.PageRequest;
@@ -35,11 +36,11 @@ public class ClientController {
 				@RequestParam Integer size){
 		
 		return  "requestParam = "+ start + size;
-	
 }*/
 	
-	private ClientRepository clientRepository;
+	private ClientRepository clientRepository; // permet de communiquer avec la Base
 
+	
 /** Constructeur
  * @param clientRepository
  */
@@ -50,7 +51,7 @@ public ClientController(ClientRepository clientRepositroy) {
 
 
 
-@GetMapping // 
+@GetMapping 
 public ResponseEntity<?> list(
 		@RequestParam Integer start,
 		@RequestParam Integer size){
@@ -63,4 +64,14 @@ public ResponseEntity<?> list(
 
 }
 
+@GetMapping("clients/{uuid}")
+public ResponseEntity<?> findByUuid(@PathVariable UUID uuid){
+	  
+		
+	Optional<Client> client= clientRepository.findById(uuid);
+	if (!client.isPresent()) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("l'UUID ne corresponds a aucun client");	
+		}
+	return ResponseEntity.status(HttpStatus.OK).body(client.get().toString());
+}
 }
