@@ -41,32 +41,21 @@ public class ClientControllerTests {
 	void list() throws Exception {
 
 		 List<Client> list =new ArrayList<>();
-		 Client client1 =new Client("Ross","Odd");
+		 Client client1 =new Client("Odd","Ross");
 		 client1.setUuid(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"));
 		 list.add(client1);
 		 
 		 Page<Client> page = new PageImpl<>(list);
 		 
-		 Mockito.when(clientRepo.findAll(PageRequest.of(0, 1))).thenReturn(page);
+		 Mockito.when(clientRepo.findAll(PageRequest.of(0,1))).thenReturn(page);
 		 
 		 mockMvc.perform(
 				 MockMvcRequestBuilders.get("/clients?start=0&size=1")).
-		 andExpect(MockMvcResultMatchers.status().isOk()).
 		 andExpect(MockMvcResultMatchers.jsonPath("$[0].uuid").value("dcf129f1-a2f9-47dc-8265-1d844244b192")).
 		 andExpect(MockMvcResultMatchers.jsonPath("$[0].nom").value("Odd")).
 		 andExpect(MockMvcResultMatchers.jsonPath("$[0].prenoms").value("Ross"));
 	}
 	
-	@Test
-	void findbyUUID() throws Exception{
-		Client c1 = new Client("Odd", "Ross");
-		c1.setUuid(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"));
-		
-		Mockito.when(clientRepo.getByUUID(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"))).thenReturn(c1);
-		
-		mockMvc.perform(MockMvcRequestBuilders.get("/client/dcf129f1-a2f9-47dc-8265-1d844244b192"))
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.jsonPath("nom").value("Odd"))
-			.andExpect(MockMvcResultMatchers.jsonPath("prenoms").value("Ross"));
-	}
+
+	
 }

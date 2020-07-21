@@ -6,6 +6,8 @@ package dev.hotel.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,23 +51,16 @@ public ClientController(ClientRepository clientRepositroy) {
 
 
 @GetMapping // 
-public List<Client> list(@RequestParam Integer start,
-			@RequestParam Integer size){
+public ResponseEntity<?> list(
+		@RequestParam Integer start,
+		@RequestParam Integer size){
 	
-	return  clientRepository.findAll();
+	if (start==null||size==null||start<0||size<0) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error");
+	}
+	return ResponseEntity.status(HttpStatus.ACCEPTED).body(clientRepository.findAll(PageRequest.of(start, size)).toList());
 	
 
 }
-@GetMapping("client/{id}")
-public ResponseEntity<Client> getUUID(@PathVariable UUID id) {
-	Client client = clientRepository.getByUUID(id);
-	
-	if(client == null) {
-		return ResponseEntity.status(404)
-				.body(null);
-	}else {
-		return ResponseEntity.status(200)
-				.body(client);
-	}
-}
+
 }
