@@ -43,9 +43,9 @@ public class ClientControllerTests {
 	@BeforeEach
 	void setUp () {
 		
-		 Client client1 =new Client("Odd","Ross");
-		 client1.setUuid(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"));
-		 list.add(client1);
+		 Client client =new Client("Odd","Ross");
+		 client.setUuid(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"));
+		 list.add(client);
 	}
 	
 	@Test
@@ -63,14 +63,15 @@ public class ClientControllerTests {
 	}
 	
 	@Test
-	void findByUuid() throws Exception{
+	void findByUuidTest() throws Exception{
 		
 
-		 Mockito.when(clientRepo.findById(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"))).thenReturn(Optional.of(list.get(0)));
+		 Mockito.when(clientRepo.findById(UUID.fromString("dcf129f1-a2f9-47dc-8265-1d844244b192"))).thenReturn(Optional.of(this.list.get(0)));
 		 
 		 mockMvc.perform(
 				 MockMvcRequestBuilders.get("/clients/dcf129f1-a2f9-47dc-8265-1d844244b192")).
-		// andExpect(MockMvcResultMatchers.status().isOk()).
+		 andExpect(MockMvcResultMatchers.status().isOk()).
+ 		 andExpect(MockMvcResultMatchers.jsonPath("$.uuid").value("dcf129f1-a2f9-47dc-8265-1d844244b192")).
 		 andExpect(MockMvcResultMatchers.jsonPath("$.nom").value("Odd")).
 		 andExpect(MockMvcResultMatchers.jsonPath("$.prenoms").value("Ross"));
 	}
