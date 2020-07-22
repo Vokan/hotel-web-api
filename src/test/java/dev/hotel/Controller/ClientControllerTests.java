@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import dev.hotel.controller.ClientController;
 import dev.hotel.entite.Client;
 import dev.hotel.repository.ClientRepository;
+import dev.hotel.service.ClientService;
 
 /**
  * @author vokankocak
@@ -76,4 +78,34 @@ public class ClientControllerTests {
 		 andExpect(MockMvcResultMatchers.jsonPath("$.prenoms").value("Ross"));
 	}
 	
+	@Test
+	void creerClientTestNomVide() throws Exception{
+		
+		String client = "{\"nom\":\"\",\"prenom\":\"Brieuc\"}";
+		
+		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(client))
+				.andExpect(MockMvcResultMatchers.status().is(400))
+				.andExpect(MockMvcResultMatchers.content().string("ajouter un nom"));
+				
+	}
+	
+	@Test
+	void creerClientTestPrenomVide() throws Exception{
+		
+		String client = "{\"nom\":\"Dubois\",\"prenom\":\"\"}";
+		
+		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(client))
+				.andExpect(MockMvcResultMatchers.status().is(400))
+				.andExpect(MockMvcResultMatchers.content().string("ajouter un prenom"));
+}
+	@Test
+	public void CreerClientTestVide() throws Exception {
+		String client = "{  }";
+		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON).content(client))
+				.andExpect(MockMvcResultMatchers.status().is(400))
+				.andExpect(MockMvcResultMatchers.content().string("Ajouter un prenom et un nom"));
+}
 }
