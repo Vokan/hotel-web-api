@@ -64,15 +64,19 @@ public ResponseEntity<?> list(
 
 }
 
-@GetMapping("clients/{uuid}")
+@GetMapping("/{uuid}")
 public ResponseEntity<?> findByUuid(@PathVariable UUID uuid){
+	  Optional<Client> client= clientRepository.findById(uuid);
+	
 	  
+	  if (!client.isPresent()) {
 		
-	Optional<Client> client= clientRepository.findById(uuid);
-	if (!client.isPresent()) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("l'UUID ne corresponds a aucun client");	
-		} else {
-		return ResponseEntity.status(HttpStatus.OK).body(client.get());
+		  return ResponseEntity.status(HttpStatus.NOT_FOUND).body("l'UUID ne corresponds a aucun client");	
+		} 
+	  
+	  else {
+		
+		  return ResponseEntity.status(HttpStatus.OK).body(client.get());
 }
 }
 
