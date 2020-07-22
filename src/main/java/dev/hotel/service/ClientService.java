@@ -5,9 +5,13 @@ package dev.hotel.service;
 
 
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dev.hotel.entite.Chambre;
 import dev.hotel.entite.Client;
 import dev.hotel.repository.ClientRepository;
 
@@ -37,5 +41,7 @@ public class ClientService {
 			
 			return clientSave;
 		}
+
+	
 		
 }

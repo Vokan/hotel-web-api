@@ -22,7 +22,7 @@ public class ReservationDto {
 	@NotNull
 	private LocalDate dateFin;
 	
-	@JsonProperty("ID")
+	@JsonProperty("clientId")
 	@NotNull
 	private UUID uuidClient;
 	
