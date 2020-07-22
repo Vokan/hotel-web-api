@@ -20,7 +20,7 @@ public class ClientDto {				// Classe qui permet de crée un client
 	
 	@NotNull
 	@Size(min = 2)
-	@NotBlank
+	@NotBlank				//notBlank uniquement pour les chaines de carctères
 	@JsonProperty("nom")
 	private String nomClient;
 	

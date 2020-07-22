@@ -1,6 +1,8 @@
 package dev.hotel.Dto;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -19,6 +21,26 @@ public class ReservationDto {
 	@JsonProperty("dateFin")
 	@NotNull
 	private LocalDate dateFin;
+	
+	@JsonProperty("ID")
+	@NotNull
+	private UUID uuidClient;
+	
+	@JsonProperty("chambresUuid")
+	@NotNull
+	private List<UUID> uuidChambre;
+	
+	
+	
+	
+		/** Constructeur
+	 * 
+	 */
+	public ReservationDto() {
+		super();
+	}
+
+		//Getters and Setters
 
 	/** Getter
 	 * @return the dateDebut
@@ -47,10 +69,38 @@ public class ReservationDto {
 	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
 	}
+
+	/** Getter
+	 * @return the uuidClient
+	 */
+	public UUID getUuidClient() {
+		return uuidClient;
+	}
+
+	/** Setter
+	 * @param uuidClient the uuidClient to set
+	 */
+	public void setUuidClient(UUID uuidClient) {
+		this.uuidClient = uuidClient;
+	}
+
+	/** Getter
+	 * @return the uuidChambre
+	 */
+	public List<UUID> getUuidChambre() {
+		return uuidChambre;
+	}
+
+	/** Setter
+	 * @param uuidChambre the uuidChambre to set
+	 */
+	public void setUuidChambre(List<UUID> uuidChambre) {
+		this.uuidChambre = uuidChambre;
+	}
 	
 	
 	
-	//Getters and Setters
+
 	
 	
 

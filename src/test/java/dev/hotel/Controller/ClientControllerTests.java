@@ -40,6 +40,9 @@ public class ClientControllerTests {
 	@MockBean
 	private ClientRepository clientRepo;
 	
+	@MockBean
+	private ClientService clientService;
+	
 	protected List<Client> list =new ArrayList<>();
 	
 	@BeforeEach
@@ -86,7 +89,7 @@ public class ClientControllerTests {
 		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(client))
 				.andExpect(MockMvcResultMatchers.status().is(400))
-				.andExpect(MockMvcResultMatchers.content().string("ajouter un nom"));
+				.andExpect(MockMvcResultMatchers.content().string("Ajouter un nom"));
 				
 	}
 	
@@ -98,7 +101,7 @@ public class ClientControllerTests {
 		mockMvc.perform(MockMvcRequestBuilders.post("/clients").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON).content(client))
 				.andExpect(MockMvcResultMatchers.status().is(400))
-				.andExpect(MockMvcResultMatchers.content().string("ajouter un prenom"));
+				.andExpect(MockMvcResultMatchers.content().string("Ajouter un prenom"));
 }
 	@Test
 	public void CreerClientTestVide() throws Exception {
